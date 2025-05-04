@@ -1,0 +1,40 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎤 Meeting Assistant</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 AI-Powered Meeting Assistant</h1>
+    <p><strong>🗣️ You said:</strong></p>
+    <div class="box" id="question">Waiting for input...</div>
+
+    <p><strong>🤖 Assistant Answer:</strong></p>
+    <div class="box" id="answer">Thinking...</div>
+  </div>
+
+  <script>
+    async function fetchLatest() {
+      try {
+        const res = await fetch("/get_latest_answer");
+        const data = await res.json();
+        document.getElementById("question").innerText = data.question || "Waiting...";
+        if (data.status === "answering") {
+          document.getElementById("answer").innerText = "🤖 Answering...";
+        }
+        else if (data.status === "ready") {
+          document.getElementById("answer").innerText = data.answer || "No answer.";
+        }
+      } catch (err) {
+        console.error("Error fetching answer:", err);
+      }
+    }
+
+    setInterval(fetchLatest, 500); 
+  </script>
+</body>
+</html>
