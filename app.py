@@ -6,8 +6,10 @@ from starlette.requests import Request
 import threading
 import time
 
+
 from system_listener import listen_and_transcribe  # Real-time listener
 from langchain_llm import get_answer               # Your LLM backend
+from whisper_listener import listen_and_transcribe_
 
 app = FastAPI()
 
@@ -33,7 +35,7 @@ def background_listener():
     global latest
     while True:
         print("🎧 Listening for user speech...")
-        spoken_text = listen_and_transcribe()
+        spoken_text = listen_and_transcribe_()
 
         if spoken_text and len(spoken_text.split()) >= 3:
             print(f"📝 Transcribed: {spoken_text}")
