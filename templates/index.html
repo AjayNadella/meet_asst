@@ -1,40 +1,84 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🎤 Meeting Assistant</title>
+  <title>🎤 Interview Chat Assistant</title>
   <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    .chat-container {
+      max-width: 700px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    .message {
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-weight: bold;
+      color: #1e88e5;
+    }
+
+    .answer {
+      margin-left: 20px;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 AI-Powered Meeting Assistant</h1>
-    <p><strong>🗣️ You said:</strong></p>
-    <div class="box" id="question">Waiting for input...</div>
-
-    <p><strong>🤖 Assistant Answer:</strong></p>
-    <div class="box" id="answer">Thinking...</div>
+  <div class="chat-container">
+    <h2>🧠 Interview Chat Assistant</h2>
+    <div id="chat-box"></div>
   </div>
 
   <script>
+    let lastQuestion = "";
+    let chatHistory = [];
+
     async function fetchLatest() {
       try {
         const res = await fetch("/get_latest_answer");
         const data = await res.json();
-        document.getElementById("question").innerText = data.question || "Waiting...";
-        if (data.status === "answering") {
-          document.getElementById("answer").innerText = "🤖 Answering...";
-        }
-        else if (data.status === "ready") {
-          document.getElementById("answer").innerText = data.answer || "No answer.";
+
+        if (data.status === "ready" && data.question !== lastQuestion) {
+          lastQuestion = data.question;
+
+          chatHistory.push({
+            question: data.question,
+            answer: data.answer
+          });
+
+          renderChat();
         }
       } catch (err) {
-        console.error("Error fetching answer:", err);
+        console.error("Error fetching:", err);
       }
     }
 
-    setInterval(fetchLatest, 500); 
+    function renderChat() {
+      const chatBox = document.getElementById("chat-box");
+      chatBox.innerHTML = "";
+
+      chatHistory.forEach(item => {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("message");
+        msgDiv.innerHTML = `
+          <div class="question">🗣️ You: ${item.question}</div>
+          <div class="answer">🤖 Assistant: ${item.answer}</div>
+        `;
+        chatBox.appendChild(msgDiv);
+      });
+
+      // Scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    setInterval(fetchLatest, 1000);
   </script>
 </body>
 </html>
