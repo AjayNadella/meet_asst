@@ -9,7 +9,7 @@ from faster_whisper import WhisperModel
 from pydub import AudioSegment
 
 # Load the Whisper model
-model = WhisperModel("tiny.en", compute_type="int8")
+model = WhisperModel("base.en", compute_type="int8")
 samplerate = 16000
 channels = 1
 blocksize = 8000

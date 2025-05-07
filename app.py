@@ -7,6 +7,7 @@ import threading
 import time
 
 
+
 from langchain_llm import get_answer               
 from whisper_listener import listen_and_transcribe_
 
@@ -36,7 +37,7 @@ def background_listener():
         print("🎧 Listening for user speech...")
         spoken_text = listen_and_transcribe_()
 
-        if spoken_text and len(spoken_text.strip()) >= 10 and not spoken_text.strip().startswith(".") and spoken_text != latest["question"]:
+        if spoken_text and len(spoken_text.split()) >= 3:
             print(f"📝 Transcribed: {spoken_text}")
             latest["question"] = spoken_text
             latest["status"] = "answering"

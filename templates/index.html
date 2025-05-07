@@ -1,34 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>🎤 Interview Chat Assistant</title>
-  <link rel="stylesheet" href="/static/style.css" />
-  <style>
-    .chat-container {
-      max-width: 700px;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      font-family: Arial, sans-serif;
-    }
-
-    .message {
-      margin-bottom: 20px;
-    }
-
-    .question {
-      font-weight: bold;
-      color: #1e88e5;
-    }
-
-    .answer {
-      margin-left: 20px;
-      color: #444;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Interview Chat Assistant</title>
+  <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
   <div class="chat-container">
@@ -41,22 +16,13 @@
     let chatHistory = [];
 
     async function fetchLatest() {
-      try {
-        const res = await fetch("/get_latest_answer");
-        const data = await res.json();
+      const res = await fetch("/get_latest_answer");
+      const data = await res.json();
 
-        if (data.status === "ready" && data.question !== lastQuestion) {
-          lastQuestion = data.question;
-
-          chatHistory.push({
-            question: data.question,
-            answer: data.answer
-          });
-
-          renderChat();
-        }
-      } catch (err) {
-        console.error("Error fetching:", err);
+      if (data.status === "ready" && data.question !== lastQuestion) {
+        lastQuestion = data.question;
+        chatHistory.push({ question: data.question, answer: data.answer });
+        renderChat();
       }
     }
 
@@ -65,16 +31,22 @@
       chatBox.innerHTML = "";
 
       chatHistory.forEach(item => {
-        const msgDiv = document.createElement("div");
-        msgDiv.classList.add("message");
-        msgDiv.innerHTML = `
-          <div class="question">🗣️ You: ${item.question}</div>
-          <div class="answer">🤖 Assistant: ${item.answer}</div>
+        const message = document.createElement("div");
+        message.className = "message";
+        message.innerHTML = `
+          <div class="question">🟢 <strong>You:</strong> ${item.question}</div>
+          <div class="answer">
+            <div><strong>📌 Question Recap:</strong> ${item.question}</div><br>
+            ${item.answer
+              .replace(/\n{2,}/g, "<br><br>")
+              .replace(/\n/g, "<br>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+              .replace(/Step (\d):/g, "👉 <strong>Step $1:</strong>")}
+          </div>
         `;
-        chatBox.appendChild(msgDiv);
+        chatBox.appendChild(message);
       });
 
-      // Scroll to bottom
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
