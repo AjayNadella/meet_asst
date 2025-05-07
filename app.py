@@ -31,6 +31,7 @@ def index(request: Request):
 def get_latest_answer():
     return JSONResponse(content=latest)
 
+
 def background_listener():
     global latest
     while True:

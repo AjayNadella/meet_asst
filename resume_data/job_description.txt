@@ -1,24 +1,48 @@
-Summary
-Gainwell Technologies is seeking a highly skilled AI Engineer to design, develop, and deploy advanced AI solutions, including Generative AI (GenAI), across our healthcare technology platforms. This role involves building and optimizing AI technologies, integrating them into existing systems, and ensuring their effectiveness in improving healthcare outcomes and operational efficiency while maintaining compliance with industry standards. 
+Role:  Java Test Automation
 
-Your role in our mission
-Essential Job Functions
+Experience 6-8 Years
 
-AI Model Development – Design, build, and train machine learning and deep learning models, including GenAI, NLP, and predictive analytics solutions for healthcare applications. 
-End-to-End AI Solution Deployment – Develop, test, and deploy AI solutions in cloud and on-premise environments, ensuring reliability, scalability, and real-world impact. 
-Data Engineering & Processing – Work with large healthcare datasets, performing data preprocessing, feature engineering, and model training while ensuring compliance with HIPAA and other regulatory standards. 
-System Integration – Implement and optimize AI models within Gainwell’s existing technology stack, collaborating with software engineers to ensure seamless integration. 
-Performance Optimization – Continuously monitor, refine, and optimize AI models for accuracy, efficiency, and speed, leveraging MLOps best practices. 
-AI Research & Innovation – Stay updated with the latest AI/ML advancements, exploring new technologies and methodologies to enhance solution effectiveness. 
-Compliance & Security – Ensure AI implementations adhere to healthcare industry regulations, ethical AI principles, and data privacy standards. 
-Automation & Workflow Enhancement – Identify opportunities to automate workflows and optimize business processes using AI-driven solutions. 
-What we're looking for
-Master’s or Ph.D in Computer Science, AI, Data Science, or a related field. 
-5+ years of experience in AI/ML engineering, with a focus on developing and deploying AI solutions. 
-Hands-on expertise in machine learning, deep learning, GenAI, NLP, and computer vision. 
-Strong programming skills in Python, TensorFlow, PyTorch, and other AI frameworks. 
-Experience developing, deploying and finetuning LLMs (GPT, Gemini, Claude or similar) for real world applications including prompt engineering, model optimization and inference efficiency.    
-Experience with cloud platforms (AWS, Azure, or GCP) and MLOps for scalable AI deployments. 
-Proficiency in working with big data technologies (Spark, Hadoop, SQL, NoSQL databases). 
-Strong problem-solving skills with the ability to translate business challenges into AI-driven solutions. 
-Knowledge of healthcare AI applications and regulatory compliance (HIPAA, CMS) is a plus. 
+Location:  USA – Milwaukee (5 days work from office)
+
+ 
+
+ 
+
+Technical Skills: (Primary)
+
+    UI Automation : JavaScript based Webdriver.IO/ Playwright,
+    API Automation:  Chai/Mocha for API or any other API testing tools,
+    Saucelabs or any other cloud platforms for cloud-based execution
+
+ 
+
+Technical Skills: 
+
+    Experience in Mainframe automation preferred
+
+ 
+
+Roles & Responsibilities:
+
+    Experience in integrating tools like DevOps platforms, JIRA/Zephyr / XRAY, SAUCE Lab etc. to the existing or newly built Automation framework
+    Define End to End automation workflow for each of the application services from initiation to delivery
+    Capable of putting across E2E Automation Strategy
+    Capable of indicating types of automation testing required across various business layers and recommend appropriate tools
+    have worked on any DevOps platform in Agile way of working
+    Set Target for the Automaton Roadmap
+    Capable of setting team skills, framework, tools and Coverage
+    Capable of indicating CI/CD pipelines
+    Capable of defining Y2Y productivity improvements
+    Capable of recommending a process/strategy to reduce execution time
+    Improve test estimation efforts
+    Recommend Best Practices
+    Provide solution approach for a given problem statement
+
+ 
+
+Soft Skills
+
+    As this is an onsite role, must have strong written and oral communication skills.
+    Insurance Domain Knowledge
+    Strong ability to work with client stakeholders.
+    Requirement Review and Work Effort Estimation

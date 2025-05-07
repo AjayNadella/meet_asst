@@ -9,7 +9,7 @@ from faster_whisper import WhisperModel
 from pydub import AudioSegment
 
 # Load the Whisper model
-model = WhisperModel("base.en", compute_type="int8")
+model = WhisperModel("tiny.en", compute_type="int8")
 samplerate = 16000
 channels = 1
 blocksize = 8000
@@ -20,19 +20,25 @@ def callback(indata, frames, time, status):
         print("⚠️", status)
     q.put(bytes(indata))
 
+def get_device_index_by_name(name_substring: str):
+    for i, dev in enumerate(sd.query_devices()):
+        if name_substring.lower() in dev['name'].lower() and dev['max_input_channels'] > 0:
+            return i
+    raise Exception(f"❌ No input device found matching: {name_substring}")
+
 def listen_and_transcribe_():
     print("🎧 Listening to system audio via Whisper")
 
     try:
-        device_index = 1  # update this based on your system input device (VB-Cable or VoiceMeeter)
+        device_index = get_device_index_by_name("Voicemeeter Out B1")
         sd.default.device = device_index
         device_info = sd.query_devices(device_index)
         print(f"✅ Using device #{device_index}: {device_info['name']}")
 
         audio_bytes = b""
-        silence_threshold = 300
+        silence_threshold = 100
         silence_count = 0
-        max_silence_chunks = 20
+        max_silence_chunks = 30
 
         with sd.RawInputStream(samplerate=samplerate, blocksize=blocksize, dtype='int16',
                                channels=channels, callback=callback):
