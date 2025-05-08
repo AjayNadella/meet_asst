@@ -1,10 +1,9 @@
-# system_listener.py
 import queue
 import sounddevice as sd
 import tempfile
 import os
 import numpy as np
-import json
+import time
 from faster_whisper import WhisperModel
 from pydub import AudioSegment
 
@@ -12,10 +11,10 @@ from pydub import AudioSegment
 model = WhisperModel("tiny.en", compute_type="int8")
 samplerate = 16000
 channels = 1
-blocksize = 8000
+blocksize = 4000  # Smaller chunk size for quicker detection
 q = queue.Queue()
 
-def callback(indata, frames, time, status):
+def callback(indata, frames, time_info, status):
     if status:
         print("⚠️", status)
     q.put(bytes(indata))
@@ -35,28 +34,38 @@ def listen_and_transcribe_():
         device_info = sd.query_devices(device_index)
         print(f"✅ Using device #{device_index}: {device_info['name']}")
 
-        audio_bytes = b""
         silence_threshold = 100
+        max_silence_chunks = 6
         silence_count = 0
-        max_silence_chunks = 30
+        audio_chunks = []
+        start_time = time.time()
 
         with sd.RawInputStream(samplerate=samplerate, blocksize=blocksize, dtype='int16',
                                channels=channels, callback=callback):
             while True:
                 data = q.get()
-                rms = np.sqrt(np.mean(np.frombuffer(data, dtype=np.int16)**2))
+                rms = np.sqrt(np.mean(np.frombuffer(data, dtype=np.int16).astype(np.float32) ** 2))
+
+                audio_chunks.append(data)
 
                 if rms < silence_threshold:
                     silence_count += 1
                 else:
                     silence_count = 0
 
-                audio_bytes += data
-
-                if silence_count > max_silence_chunks:
+                # Stop recording after sustained silence and a minimum duration
+                if silence_count >= max_silence_chunks and (time.time() - start_time) > 2.5:
+                    # Add 2 more chunks after silence to avoid premature cutoffs
+                    for _ in range(2):
+                        try:
+                            audio_chunks.append(q.get(timeout=0.3))
+                        except queue.Empty:
+                            break
                     break
 
-        # Save to temporary file for Whisper
+        audio_bytes = b"".join(audio_chunks)
+
+        # Save to temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as f:
             temp_path = f.name
             audio = AudioSegment(

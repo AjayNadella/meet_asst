@@ -49,5 +49,4 @@ def background_listener():
 
         time.sleep(0.1)
 
-# Background transcription thread (real-time)
 threading.Thread(target=background_listener, daemon=True).start()
